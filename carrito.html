@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Daniela - Mi Carrito</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #CDD1FC; /* Lavanda de fondo */
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 90vh;
+        }
+        .window-frame {
+            width: 100%;
+            max-width: 1100px;
+            background-color: #CDD1FC;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .title-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .title-badge {
+            background: white;
+            display: inline-block;
+            padding: 8px 40px;
+            border: 1px solid #000;
+            font-size: 1.8em;
+            font-family: 'Arial Black', Gadget, sans-serif;
+            font-weight: 900;
+        }
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 0.4fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .notebook-sheet {
+            background: white;
+            border: 2px solid #5c4033;
+            border-radius: 15px;
+            padding: 30px 20px;
+            position: relative;
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+            min-height: 450px;
+        }
+        /* Cintas decorativas azules en las esquinas superiores */
+        .notebook-sheet::before, .notebook-sheet::after {
+            content: "";
+            position: absolute;
+            width: 60px;
+            height: 20px;
+            background: #A2C2F2;
+            border: 1px dashed #7ea3d7;
+            top: -5px;
+        }
+        .notebook-sheet::before { left: 10px; transform: rotate(-30deg); }
+        .notebook-sheet::after { right: 10px; transform: rotate(30deg); }
+        .notebook-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .notebook-item img {
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            border: 4px solid #7380F3; 
+            object-fit: cover;
+        }
+        .item-labels {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex-grow: 1;
+            max-width: 200px;
+        }
+        .pill-label {
+            background: white;
+            border: 2px solid #000;
+            border-radius: 20px;
+            padding: 4px 15px;
+            font-size: 0.9em;
+            text-align: center;
+            font-weight: bold;
+        }
+        .btn-plus {
+            background-color: #EF5DA8;
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 1px 2px 4px rgba(0,0,0,0.2);
+        }
+        .btn-plus:hover { background-color: #d13d8a; }
+        .receipt-window {
+            background: white;
+            border: 2px solid #000;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 6px 6px 0px #7079B0;
+            min-height: 480px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .receipt-header {
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid #000;
+        }
+        .dot { width: 16px; height: 16px; border-radius: 50%; }
+        .dot.yellow { background: #FFD43A; }
+        .dot.pink { background: #FFAAA6; }
+        
+        .receipt-title {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 1.1em;
+            font-weight: 900;
+            color: #000;
+            margin-left: 10px;
+        }
+
+        .receipt-body {
+            padding: 20px;
+            flex-grow: 1;
+        }
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #F9F9F9;
+            border: 2px solid #B5B9E2;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 2px 3px 0px #CDD1FC;
+        }
+        .receipt-item-info {
+            font-size: 1.1em;
+            line-height: 1.5;
+        }
+        .receipt-dollar-sign {
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #000;
+        }
+        .receipt-footer-bar {
+            background-color: #D3D7FA;
+            height: 25px;
+            border-top: 2px solid #000;
+            border-bottom: 2px solid #000;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding-right: 15px;
+            gap: 10px;
+            font-size: 0.8em;
+            color: #666;
+        }
+        .total-container {
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+        }
+        .total-pill {
+            background: white;
+            border: 2px solid #000;
+            border-radius: 20px;
+            padding: 8px 30px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .total-input {
+            border: 2px solid #000;
+            border-radius: 8px;
+            padding: 8px;
+            width: 90px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .right-sidebar {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 520px;
+        }
+        .logo-container {
+            background: #81C3D7;
+            padding: 4px;
+            border-radius: 50px;
+            text-align: center;
+            align-self: flex-end;
+        }
+        .logo-badge {
+            background: white;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Pacifico', cursive;
+            font-size: 1.1em;
+            border: 2px dashed #81C3D7;
+        }
+        .navigation-btns {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .nav-btn {
+            background: white;
+            color: black;
+            border: 2px solid #000;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 1.2em;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            text-align: center;
+            box-shadow: 2px 2px 0px rgba(0,0,0,1);
+            transition: background 0.2s;
+        }
+        .nav-btn:hover { background: #f0f0f0; }
+
+    </style>
+</head>
+<body>
+
+    <div class="window-frame">
+        <div class="title-container">
+            <div class="title-badge">MI CARRITO</div>
+        </div>
+        <div class="main-layout">
+            <div class="notebook-sheet" id="libreta-articulos">
+            </div>
+            <div class="receipt-window">
+                <div>
+                    <div class="receipt-header">
+                        <div class="dot yellow"></div>
+                        <div class="dot pink"></div>
+                        <div class="receipt-title">CANTIDAD DE PAGO</div>
+                    </div>
+                    <div class="receipt-body" id="recibo-lista">
+                    </div>
+                </div>
+
+                <div>
+                    <div class="receipt-footer-bar"><span>—</span><span>❑</span><span>✕</span></div>
+                    <div class="total-container">
+                        <div class="total-pill">total</div>
+                        <div class="total-input" id="total-val">$0.00</div>
+                    </div>
+                </div>
+            </div>
+            <div class="right-sidebar">
+                <div class="logo-container">
+                    <div class="logo-badge">Daniela</div>
+                </div>
+                
+                <div class="navigation-btns">
+                    <button class="nav-btn" id="btnRegresar">regresar</button>
+                    <button class="nav-btn" id="btnPagar">pagar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const imagenesPlatillos = {
+            'Tacos Dorados': 'https://i.pinimg.com/1200x/e5/88/99/e5889976a7a0b3468c8c396bd4f6a4da.jpg',
+            'Sopes': 'https://i.pinimg.com/1200x/ba/35/64/ba35648c7c027c4182c25b7208b9bc8f.jpg',
+            'Pozole': 'https://i.pinimg.com/1200x/0c/09/06/0c0906d76baa4cc3ce61b3a713ea7204.jpg',
+            'Chile Relleno': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr1IMMoVZkrOSLWLQGu25Wdh3rRvozelWozMBQlOIPpw&s=10',
+            'Chilaquiles': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlCKg-WkJMLmqVhvmHLArz-NyHQH0LoIj4l2UaZ9qyYw&s=10',
+            'Pollo con Mole': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwLrG2beu1siESiXt9XCyUF6UPF_xO9VpHz3dvuE-oKQ&s=10'
+        };
+        let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+        function renderizarTodo() {
+            const contenedorLibreta = document.getElementById('libreta-articulos');
+            const contenedorRecibo = document.getElementById('recibo-lista');
+            const contenedorTotal = document.getElementById('total-val');
+
+            contenedorLibreta.innerHTML = '';
+            contenedorRecibo.innerHTML = '';
+
+            if (carrito.length === 0) {
+                contenedorLibreta.innerHTML = '<p style="text-align:center;color:#666;margin-top:50px;">El carrito está vacío.</p>';
+                contenedorRecibo.innerHTML = '<p style="text-align:center;color:#666;">No hay cuentas que procesar.</p>';
+                contenedorTotal.innerText = "$0.00";
+                return;
+            }
+            let agrupado = {};
+            let totalGeneral = 0;
+
+            carrito.forEach(item => {
+                if (!agrupado[item.nombre]) {
+                    agrupado[item.nombre] = { precio: item.precio, cantidad: 0 };
+                }
+                agrupado[item.nombre].cantidad += 1;
+                totalGeneral += item.precio;
+            });
+            Object.keys(agrupado).forEach(nombre => {
+                const urlImg = imagenesPlatillos[nombre] || 'https://via.placeholder.com/150';
+                contenedorLibreta.innerHTML += `
+                    <div class="notebook-item">
+                        <img src="${urlImg}" alt="${nombre}">
+                        <div class="item-labels">
+                            <div class="pill-label">${nombre.toLowerCase()}</div>
+                            <div class="pill-label">precio</div>
+                        </div>
+                        <button class="btn-plus" onclick="incrementarPlatillo('${nombre}', ${agrupado[nombre].precio})">+</button>
+                    </div>
+                `;
+                contenedorRecibo.innerHTML += `
+                    <div class="receipt-row">
+                        <div class="receipt-item-info">
+                            <div><strong>${nombre.toLowerCase()}</strong></div>
+                            <div>cantidad: ${agrupado[nombre].cantidad}</div>
+                        </div>
+                        <div class="receipt-dollar-sign">$</div>
+                    </div>
+                `;
+            });
+            contenedorTotal.innerText = `$${totalGeneral}.00`;
+        }
+        function incrementarPlatillo(nombre, precio) {
+            carrito.push({ nombre: nombre, precio: precio });
+            localStorage.setItem('carrito', JSON.stringify(carrito)); 
+            renderizarTodo(); 
+        }
+        document.getElementById('btnRegresar').addEventListener('click', function() {
+            window.location.href = 'menu.html';
+        });
+
+        document.getElementById('btnPagar').addEventListener('click', function() {
+            if(carrito.length === 0) {
+                alert("Agrega platillos primero antes de ir a pagar.");
+            } else {
+                window.location.href = 'pago.html';
+            }
+        });
+        window.onload = renderizarTodo;
+    </script>
+</body>
+</html>
